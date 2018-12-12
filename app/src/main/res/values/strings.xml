@@ -1,4 +1,24 @@
 <resources>
     <string name="app_name">Kanbapp</string>
     <string name="action_settings">Settings</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="boards">Boards</string>
+    <string name="no_data_available">No data available</string>
+    <string name="create_board">Create Board</string>
+    <string name="remove">Remove</string>
+    <string name="remove_board_ask">Remove board %s?</string>
+    <string name="change_name">Change name</string>
+    <string name="open_board">Open board</string>
+    <string name="name">Name</string>
+    <string name="give_name">Give a name for the new board</string>
+    <string name="required">Required field</string>
+    <string name="max_length">Must be less than %s chars</string>
+    <string name="min_length">Must have at least %s chars</string>
+    <string name="is_negative">Value must be positive</string>
+    <string name="past_date">Date shouldn\'t be in the past</string>
+    <string name="future_date">Date shouldn\'t be in the future</string>
+    <string name="change">Change</string>
+    <string name="cancel">Cancel</string>
+    <string name="x_removed">%s removed</string>
 </resources>

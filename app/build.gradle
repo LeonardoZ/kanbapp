@@ -22,6 +22,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dataBinding {
+        enabled = true
+    }
 }
 
 
@@ -40,6 +43,10 @@ dependencies {
     def ext_test = '1.0.0'
     def x_test = '1.1.0'
     def hamcrest = '1.3'
+    def recycler = '1.0.0'
+    def core_testing = '2.0.0-rc01'
+    def mockito_version = 'latest.release'
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.google.android.material:material:$material"
@@ -48,22 +55,31 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$androidx_version"
     implementation "androidx.lifecycle:lifecycle-livedata:$androidx_version"
     implementation "androidx.room:room-runtime:$room"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
     kapt "androidx.room:room-compiler:$room"
     implementation "android.arch.navigation:navigation-fragment-ktx:$nav"
     implementation "android.arch.navigation:navigation-ui-ktx:$nav"
     implementation "android.arch.work:work-runtime-ktx:$work"
     implementation "com.google.dagger:dagger:$dagger2"
     kapt "com.google.dagger:dagger-compiler:$dagger2"
-    androidTestImplementation "android.arch.work:work-testing:$work"
-    androidTestImplementation "android.arch.navigation:navigation-testing:$nav"
+    implementation "androidx.recyclerview:recyclerview:$recycler"
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.2'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
+    debugImplementation 'com.squareup.leakcanary:leakcanary-support-fragment:1.6.2'
 
     testImplementation "androidx.room:room-testing:$room"
     testImplementation "junit:junit:$junit"
     testImplementation "androidx.arch.core:core-testing:$androidx_version"
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+    androidTestImplementation "org.mockito:mockito-android:$mockito_version"
+    androidTestImplementation "android.arch.work:work-testing:$work"
+    androidTestImplementation "android.arch.navigation:navigation-testing:$nav"
     androidTestImplementation "androidx.test:runner:$x_test"
     androidTestImplementation "androidx.test:rules:$x_test"
     androidTestImplementation "org.hamcrest:hamcrest-library:$hamcrest"
     androidTestImplementation "androidx.test.ext:junit:$ext_test"
     androidTestImplementation "androidx.test:runner:$test_runner"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    androidTestImplementation "androidx.arch.core:core-testing:$core_testing"
 }

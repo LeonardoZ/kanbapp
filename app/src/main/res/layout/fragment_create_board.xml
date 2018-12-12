@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="restrictions"
+                  type="com.github.leonardoz.kanbapp.data.entity.BoardRestrictions"/>
+        <variable name="viewModel"
+                  type="com.github.leonardoz.kanbapp.view.viewmodel.CreateBoardViewModel"/>
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".view.fragment.CreateBoardFragment">
+
+        <TextView
+                android:id="@+id/tvMsg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="16dp"
+                android:text="@string/give_name"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        <View android:id="@+id/tvSeparator"
+              android:layout_width="match_parent"
+              android:layout_height="2dp"
+              android:layout_marginStart="8dp"
+              android:layout_marginEnd="8dp"
+              android:background="@android:color/darker_gray"
+              app:layout_constraintStart_toStartOf="parent"
+              app:layout_constraintTop_toBottomOf="@id/tvMsg"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:counterEnabled="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:counterMaxLength="@{restrictions.nameSizeLimit}"
+                hasError="@{viewModel.createBoardError.nameIsWrong}"
+                errorMsg="@{viewModel.createBoardError.nameError}"
+                android:hint="@string/name"
+                app:layout_constraintTop_toBottomOf="@id/tvSeparator"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNameInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:onTextChanged="@{viewModel::onNameChanged}"
+                    android:inputType="textNoSuggestions|text"
+                    android:text="@={viewModel.createBoard.name}"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+                android:id="@+id/createBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:text="@string/create_board"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:onClick="@{(view) -> viewModel.saveNewBoard()}"
+                android:enabled="@{viewModel.createBoardError.valid}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/etName"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

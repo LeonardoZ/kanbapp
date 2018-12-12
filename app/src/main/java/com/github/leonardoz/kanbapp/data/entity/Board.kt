@@ -12,3 +12,7 @@ data class Board(
     @ColumnInfo(name = "created_at") var createdAt: Date = Date(),
     @ColumnInfo(name = "updated_at") var updatedAt: Date = Date()
 )
+
+object BoardRestrictions {
+    const val nameSizeLimit = 25
+}

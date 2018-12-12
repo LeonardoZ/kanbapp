@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools" android:id="@+id/nav_graph"
+            app:startDestination="@id/boardsListFragment">
+
+    <fragment android:id="@+id/boardsListFragment"
+              android:name="com.github.leonardoz.kanbapp.view.fragment.BoardsListFragment"
+              android:label="@string/boards" tools:layout="@layout/fragment_boards_list">
+        <action android:id="@+id/action_boardsListFragment_to_createBoardFragment"
+                app:destination="@id/createBoardFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/createBoardFragment" android:name="com.github.leonardoz.kanbapp.view.fragment.CreateBoardFragment"
+              android:label="@string/create_board" tools:layout="@layout/fragment_create_board">
+        <action android:id="@+id/action_createBoardFragment_to_boardsListFragment"
+                app:destination="@id/boardsListFragment"/>
+    </fragment>
+
+
+</navigation>

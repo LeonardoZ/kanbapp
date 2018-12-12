@@ -1,37 +1,28 @@
 package com.github.leonardoz.kanbapp
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import com.github.leonardoz.kanbapp.data.dao.BoardsDao
-import com.github.leonardoz.kanbapp.data.entity.Board
-import com.github.leonardoz.kanbapp.di.AppComponent
-import com.github.leonardoz.kanbapp.di.DaggerAppComponent
-import com.github.leonardoz.kanbapp.di.RoomModule
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.activity_boards.*
-import javax.inject.Inject
+import androidx.appcompat.widget.Toolbar
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
+import com.github.leonardoz.kanbapp.view.fragment.BoardsListFragment
+import com.github.leonardoz.kanbapp.view.fragment.CreateBoardFragment
 
 class BoardsActivity : AppCompatActivity() {
-
-    @Inject
-    lateinit var boardsDao: BoardsDao
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_boards)
-        setSupportActionBar(toolbar)
-        fab.setOnClickListener { view ->
-            // TO- DO
-        }
-        (application as KanbappApplication)
-            .appComponent.injectActivity(this)
-        boardsDao.getAllBoards().observe(this, Observer { Log.d("Wololo", it.toString()) })
-
+        val navController = findNavController(R.id.nav_host_fragment)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        findViewById<Toolbar>(R.id.toolbar)
+            .setupWithNavController(navController, appBarConfiguration)
     }
+
+    override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_boards, menu)
@@ -44,4 +35,5 @@ class BoardsActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }

@@ -1,0 +1,8 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.github.leonardoz.kanbapp.BoardsActivity">
+    <item android:id="@+id/menu_change_name"
+          android:title="@string/change_name"/>
+    <item android:id="@+id/menu_remove"
+          android:title="@string/remove"/>
+</menu>
