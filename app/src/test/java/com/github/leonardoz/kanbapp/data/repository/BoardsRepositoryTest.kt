@@ -6,8 +6,7 @@ import com.github.leonardoz.kanbapp.data.dao.BoardsDao
 import com.github.leonardoz.kanbapp.data.entity.Board
 import com.github.leonardoz.kanbapp.util.FakeAsyncTask
 import com.github.leonardoz.kanbapp.util.getValue
-import junit.framework.TestCase.assertEquals
-import junit.framework.TestCase.assertNotNull
+import junit.framework.TestCase.*
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,7 +14,7 @@ import org.junit.runners.JUnit4
 import org.mockito.Mockito.*
 
 @RunWith(JUnit4::class)
-class BoardsRepositoryTest () {
+class BoardsRepositoryTest() {
     private val boardsDao = mock(BoardsDao::class.java)
     private val repository = BoardsRepository(boardsDao, FakeAsyncTask())
 
@@ -63,9 +62,13 @@ class BoardsRepositoryTest () {
     @Test
     fun shouldTest_ifUpdateIsCalled_Correctly() {
         val toBeUpdated = Board(id = 12, name = "Kitchen shopping")
-        toBeUpdated?.name = "School Homework"
+        toBeUpdated.name = "School Homework"
+
+        assertTrue(toBeUpdated.createdAt == toBeUpdated.updatedAt)
+
         repository.updateBoard(toBeUpdated)
         verify(boardsDao).updateBoard(toBeUpdated)
+        assertTrue(toBeUpdated.createdAt.before(toBeUpdated.updatedAt))
     }
 
     @Test

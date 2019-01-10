@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.github.leonardoz.kanbapp.data.dao.BoardsDao
 import com.github.leonardoz.kanbapp.data.entity.Board
 import com.github.leonardoz.kanbapp.util.AsyncAction
+import java.util.*
 
 
 // TODO better asyn action, better error handling
@@ -18,6 +19,7 @@ open class BoardsRepository(val boardsDao: BoardsDao, val asyncAction: AsyncActi
     }
 
     open fun updateBoard(board: Board) = asyncAction.execute {
+        board.updatedAt = Date()
         boardsDao.updateBoard(board)
     }
 
