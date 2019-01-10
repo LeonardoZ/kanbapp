@@ -1,6 +1,7 @@
 package com.github.leonardoz.kanbapp.di
 
 import android.app.Application
+import android.content.Context
 import com.github.leonardoz.kanbapp.util.AndroidAsyncTask
 import com.github.leonardoz.kanbapp.view.form.FormValidatorFactory
 import dagger.Module
@@ -22,4 +23,8 @@ class AppModule(var application: Application) {
     @Singleton
     fun providesFormValidation(application: Application) =
         FormValidatorFactory(application.applicationContext)
+
+    @Provides
+    @Singleton
+    fun providesAppContext(): Context = application.applicationContext
 }

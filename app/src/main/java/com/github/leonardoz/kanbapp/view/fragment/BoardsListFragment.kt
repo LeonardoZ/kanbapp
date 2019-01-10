@@ -26,8 +26,9 @@ import kotlinx.android.synthetic.main.fragment_boards_list.*
 import javax.inject.Inject
 
 
-class BoardsListFragment : Fragment(), BoardsAdapter.ContextMenuItemCallback {
+class BoardsListFragment : Fragment() {
 
+    private lateinit var binding: FragmentBoardsListBinding
     private lateinit var viewModel: BoardsViewModel
     private lateinit var boardsAdapter: BoardsAdapter
 
@@ -51,7 +52,6 @@ class BoardsListFragment : Fragment(), BoardsAdapter.ContextMenuItemCallback {
     private val boardsObserver = Observer<List<Board>> {
 
         boardsAdapter.dataset = it
-        boardsAdapter.notifyDataSetChanged()
 
         if (it.isEmpty()) {
             boardsRecyclerView.visibility = View.GONE
@@ -69,36 +69,42 @@ class BoardsListFragment : Fragment(), BoardsAdapter.ContextMenuItemCallback {
         (activity?.applicationContext as KanbappApplication)
             .appComponent
             .injectBoardsListFragment(this)
-
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return FragmentBoardsListBinding.inflate(inflater, container, false)
-            .apply {
-                viewModel = ViewModelProviders.of(this@BoardsListFragment, viewModelFactory)
-                    .get(BoardsViewModel::class.java)
-                boardsViewModel = viewModel
-
-                viewModel.boards.observe(viewLifecycleOwner, boardsObserver)
-                viewModel.navigateToCreateBoardFragment.observe(viewLifecycleOwner, navigationObserver)
-                viewModel.informBoardWasRemoved.observe(viewLifecycleOwner, boardRemovedObserver)
-
-                setLifecycleOwner(this@BoardsListFragment)
-            }.root
+        binding = FragmentBoardsListBinding.inflate(inflater, container, false)
+        binding.setLifecycleOwner(this)
+        return binding.root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        initViewModel()
         initRecycler()
+    }
+
+    private fun initViewModel() {
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(BoardsViewModel::class.java)
+
+        binding.let {
+            it.boardsViewModel = viewModel
+
+            viewModel.boards.observe(viewLifecycleOwner, boardsObserver)
+            viewModel.navigateToCreateBoardFragment.observe(viewLifecycleOwner, navigationObserver)
+            viewModel.informBoardWasRemoved.observe(viewLifecycleOwner, boardRemovedObserver)
+        }
     }
 
     private fun initRecycler() {
         val linearLayoutManager = LinearLayoutManager(context)
-        boardsAdapter = BoardsAdapter(listOf(), this)
+        boardsAdapter = BoardsAdapter(
+            ::menuCallback,
+            ::openBoardCallback
+        )
         boardsRecyclerView.apply {
             adapter = boardsAdapter
             layoutManager = linearLayoutManager
@@ -111,7 +117,7 @@ class BoardsListFragment : Fragment(), BoardsAdapter.ContextMenuItemCallback {
         super.onDestroy()
     }
 
-    override fun call(item: MenuItem?, boardPosition: Int) {
+    private fun menuCallback(item: MenuItem?, boardPosition: Int) {
         when (item?.itemId) {
             R.id.menu_change_name -> menuChangeNameClicked(boardPosition)
             R.id.menu_remove -> removeBoard(boardPosition)
@@ -127,7 +133,7 @@ class BoardsListFragment : Fragment(), BoardsAdapter.ContextMenuItemCallback {
             .setPositiveButton(R.string.remove) { _: DialogInterface, i: Int ->
                 viewModel.removeBoard(board)
             }
-            .setNegativeButton(R.string.cancel) { dialogInterface: DialogInterface, _->
+            .setNegativeButton(R.string.cancel) { dialogInterface: DialogInterface, _ ->
                 dialogInterface.dismiss()
             }.show()
 
@@ -151,6 +157,14 @@ class BoardsListFragment : Fragment(), BoardsAdapter.ContextMenuItemCallback {
 
         changeNameDialog.show(ft, CHANGE_DIALOG_KEY)
         true
+    }
+
+    private fun openBoardCallback(board: Board) {
+        activity?.let {
+            val action = BoardsListFragmentDirections
+                .actionBoardsListFragmentToBoardFragment(board.id.toString())
+            Navigation.findNavController(view!!).navigate(action)
+        }
     }
 
     companion object {

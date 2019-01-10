@@ -8,6 +8,7 @@
     <string name="create_board">Create Board</string>
     <string name="remove">Remove</string>
     <string name="remove_board_ask">Remove board %s?</string>
+    <string name="remove_column_ask">Remove column %s?</string>
     <string name="change_name">Change name</string>
     <string name="open_board">Open board</string>
     <string name="name">Name</string>
@@ -21,4 +22,20 @@
     <string name="change">Change</string>
     <string name="cancel">Cancel</string>
     <string name="x_removed">%s removed</string>
+    <string name="board">Board</string>
+    <string name="todo">TODO</string>
+    <string name="done">Done</string>
+    <string name="reorder">Reorder</string>
+    <string name="new_column">New column</string>
+    <string name="create_column">Create column</string>
+    <string name="title">Title</string>
+    <string name="create">Create</string>
+    <string name="edit">Edit</string>
+    <string name="manage">Manage</string>
+    <string name="ok">Ok</string>
+    <string name="close">Close</string>
+    <string name="manage_columns">Manage columns</string>
+    <string name="tip_drag_drop">Tip: Drag and Drop work columns items to reorder them.</string>
+    <string name="change_column">Change column</string>
+    <string name="remove_column">Remove column</string>
 </resources>

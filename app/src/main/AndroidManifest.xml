@@ -3,12 +3,12 @@
           package="com.github.leonardoz.kanbapp">
 
     <application
+            android:name=".KanbappApplication"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
-            android:name=".KanbappApplication"
             android:theme="@style/AppTheme">
         <activity
                 android:name=".BoardsActivity"
@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

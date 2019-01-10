@@ -8,6 +8,27 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="boardFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-497" />
+                            <option name="y" value="284" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_boardFragment_to_manageColumnsFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="boardsListFragment">
                     <value>
                       <LayoutPositions>
@@ -19,6 +40,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_boardsListFragment_to_boardFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_boardsListFragment_to_createBoardFragment">
                               <value>
                                 <LayoutPositions />
@@ -34,13 +60,34 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-324" />
-                            <option name="y" value="-41" />
+                            <option name="x" value="-412" />
+                            <option name="y" value="-132" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_createBoardFragment_to_boardsListFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="manageColumnsFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-196" />
+                            <option name="y" value="296" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_manageColumnsFragment_to_boardFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

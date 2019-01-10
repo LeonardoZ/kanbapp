@@ -16,6 +16,8 @@ fun mockMessages(context: Context): Context {
     `when`(context.getString(R.string.is_negative)).thenReturn("Value must be positive")
     `when`(context.getString(R.string.past_date)).thenReturn("Date shouldn't be in the past")
     `when`(context.getString(R.string.future_date)).thenReturn("Date shouldn't be in the future")
+    `when`(context.getString(R.string.todo)).thenReturn("TODO")
+    `when`(context.getString(R.string.done)).thenReturn("Done")
     return context
 }
 

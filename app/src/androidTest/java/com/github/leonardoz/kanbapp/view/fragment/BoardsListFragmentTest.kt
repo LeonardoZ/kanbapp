@@ -2,11 +2,9 @@ package com.github.leonardoz.kanbapp.view.fragment
 
 
 import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.RootMatchers
-import androidx.test.espresso.matcher.RootMatchers.*
+import androidx.test.espresso.matcher.RootMatchers.withDecorView
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
@@ -17,29 +15,30 @@ import com.github.leonardoz.kanbapp.KanbappApplication
 import com.github.leonardoz.kanbapp.R
 import com.github.leonardoz.kanbapp.data.dao.BoardsDao
 import com.github.leonardoz.kanbapp.data.entity.Board
+import com.github.leonardoz.kanbapp.util.BaseUiTest
 import com.github.leonardoz.kanbapp.util.RecyclerViewMatcher
-import com.github.leonardoz.kanbapp.util.format
-import org.hamcrest.Matchers
 import org.hamcrest.Matchers.`is`
 import org.hamcrest.Matchers.not
-import org.junit.*
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class BoardsListFragmentTest {
+class BoardsListFragmentTest : BaseUiTest() {
 
     @get:Rule
     private val rule: ActivityTestRule<BoardsActivity> = ActivityTestRule(
         BoardsActivity::class.java,
         false,
-        false
+        true
     )
     private val boardA = Board(name = "Weekly Goals")
     private val boardB = Board(name = "Task Board")
     private val boardC = Board(name = "Dish-washing Kanban")
     private lateinit var boardsDao: BoardsDao
-    private var init = false
 
     init {
         (InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
@@ -49,34 +48,18 @@ class BoardsListFragmentTest {
     }
 
     @Before
-    fun startActivity() {
-        if (!init) {
-            rule.launchActivity(null)
-            init = true
-        }
+    fun prepare() {
+        insertData()
+        rule.launchActivity(null)
     }
 
-    companion object {
-        @JvmStatic
-        @BeforeClass
-        fun setupDb() {
-            InstrumentationRegistry.getInstrumentation().targetContext
-                .deleteDatabase("kanbapp-database")
-        }
-
-        @JvmStatic
-        @AfterClass
-        fun destroyDb() {
-            InstrumentationRegistry.getInstrumentation().targetContext
-                .deleteDatabase("kanbapp-database")
-        }
+    @After
+    fun clean() {
+        removeData()
     }
 
     @Test
     fun shouldDisplay_ThreeItems() {
-        insertData()
-        rule.finishActivity()
-        rule.launchActivity(null)
         onView(
             RecyclerViewMatcher(R.id.boardsRecyclerView)
                 .atPositionOnView(1, R.id.board_title)
@@ -86,12 +69,13 @@ class BoardsListFragmentTest {
             RecyclerViewMatcher(R.id.boardsRecyclerView)
                 .atPositionOnView(0, R.id.board_title)
         ).check(matches(withText("Dish-washing Kanban")))
-        removeData()
+
     }
 
     @Test
     fun shouldRemove_Board_AndDisplay_TwoItems() {
-        insertData()
+
+        // lets data be inserted
         rule.finishActivity()
         rule.launchActivity(null)
 
@@ -114,14 +98,12 @@ class BoardsListFragmentTest {
             RecyclerViewMatcher(R.id.boardsRecyclerView)
                 .atPositionOnView(0, R.id.board_title)
         ).check(matches(withText("Task Board")))
-
-        removeData()
     }
-
 
     @Test
     fun shouldDisplay_EmptyMessage() {
         removeData()
+
         onView(withId(R.id.emptyView))
             .check(matches(isDisplayed()))
     }

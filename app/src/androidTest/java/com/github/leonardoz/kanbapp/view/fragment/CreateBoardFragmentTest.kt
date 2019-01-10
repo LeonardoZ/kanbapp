@@ -1,5 +1,6 @@
 package com.github.leonardoz.kanbapp.view.fragment
 
+import android.util.Log
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.*
 import androidx.test.espresso.assertion.ViewAssertions.matches
@@ -11,57 +12,41 @@ import androidx.test.rule.ActivityTestRule
 import com.github.leonardoz.kanbapp.BoardsActivity
 import com.github.leonardoz.kanbapp.KanbappApplication
 import com.github.leonardoz.kanbapp.R
-import com.github.leonardoz.kanbapp.data.dao.BoardsDao
-import com.github.leonardoz.kanbapp.data.entity.Board
 import com.github.leonardoz.kanbapp.data.entity.BoardRestrictions
+import com.github.leonardoz.kanbapp.util.BaseUiTest
 import com.github.leonardoz.kanbapp.util.RecyclerViewMatcher
 import com.github.leonardoz.kanbapp.util.format
 import com.github.leonardoz.kanbapp.util.hasTextInputLayoutErrorText
 import org.hamcrest.CoreMatchers.not
-import org.junit.*
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class CreateBoardFragmentTest {
+class CreateBoardFragmentTest : BaseUiTest() {
 
     // Base Activity
     @get:Rule
     private val rule: ActivityTestRule<BoardsActivity> =
-        ActivityTestRule(BoardsActivity::class.java, false, true)
+        ActivityTestRule(
+            BoardsActivity::class.java,
+            false,
+            true
+        )
+
     private var context = InstrumentationRegistry.getInstrumentation().targetContext
-    private var init = false
-
-    companion object {
-        @JvmStatic
-        @BeforeClass
-        fun goToFragmentUnderTest() {
-            InstrumentationRegistry.getInstrumentation().targetContext
-                .deleteDatabase("kanbapp-database")
-        }
-
-        @JvmStatic
-        @AfterClass
-        fun destroyDb() {
-            InstrumentationRegistry.getInstrumentation().targetContext
-                .deleteDatabase("kanbapp-database")
-        }
-    }
 
     @Before
     fun prepareData() {
-        val kanbapp: KanbappApplication? =
-            InstrumentationRegistry.getInstrumentation().targetContext.applicationContext as? KanbappApplication
-        kanbapp?.let {
+        rule.launchActivity(null)
+        goToCreateBoard()
+    }
 
-            if (!init) {
-                rule.launchActivity(null)
-                onView(withId(R.id.createBoard))
-                    .perform(click())
-                init = true
-            }
-        }
+    private fun goToCreateBoard() {
+        onView(withId(R.id.createBoard))
+            .perform(click())
     }
 
     @Test

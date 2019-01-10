@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable name="restrictions"
+                  type="com.github.leonardoz.kanbapp.data.entity.ColumnRestrictions"/>
+
+        <variable name="viewModel"
+                  type="com.github.leonardoz.kanbapp.view.viewmodel.CreateColumnViewModel"/>
+    </data>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/etTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:counterEnabled="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                app:counterMaxLength="@{restrictions.titleSizeLimit}"
+                hasError="@{viewModel.createColumnError.titleIsWrong}"
+                errorMsg="@{viewModel.createColumnError.titleError}"
+                android:hint="@string/title"
+                app:layout_constraintTop_toBottomOf="@id/tvSeparator"
+                app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etTitleInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:onTextChanged="@{viewModel::onTitleChanged}"
+                    android:inputType="textNoSuggestions|text"
+                    android:text="@={viewModel.createColumn.title}"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="horizontal"
+                      android:layout_marginTop="16dp"
+                      android:layout_marginStart="32dp"
+                      android:layout_marginEnd="32dp"
+                      android:layout_marginBottom="16dp">
+
+            <Button android:id="@+id/cancel_create_column"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/cancel"
+                    android:layout_weight="1"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:onClick="@{(view) -> viewModel.cancelChange()}"/>
+
+            <Button android:id="@+id/create_column"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/create"
+                    android:enabled="@{viewModel.createColumnError.valid}"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_weight="1"
+                    android:onClick="@{(view) -> viewModel.saveColumn()}"/>
+        </LinearLayout>
+    </LinearLayout>
+</layout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:card_view="http://schemas.android.com/apk/res-auto"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_margin="8dp">
+
+    <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="8dp"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardMaxElevation="1dp"
+            card_view:cardElevation="0.9dp"
+            card_view:cardPreventCornerOverlap="true"
+            card_view:cardUseCompatPadding="true">
+
+        <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                <TextView
+                        android:id="@+id/columnTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_marginLeft="16dp"
+                        android:textStyle="bold"
+                        android:gravity="center_vertical"
+                        android:text="Dummy Dummy Dummy Dummy "
+                        android:textSize="18sp"/>
+
+                <TextView
+                        android:id="@+id/columnType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:textStyle="bold"
+                        android:text="Work"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="16dp"
+                        android:textColor="@color/colorPrimary"
+                        android:gravity="center_vertical"
+                        android:textSize="16sp"/>
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnEditColumn"
+                        android:layout_gravity="left"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/edit"
+                        android:layout_marginLeft="8dp"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:textColor="@color/colorPrimary"
+                        card_view:layout_constraintBottom_toBottomOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnRemoveColumn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/remove"
+                        android:layout_marginRight="8dp"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:textColor="@color/colorAccent"
+                        card_view:layout_constraintRight_toRightOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

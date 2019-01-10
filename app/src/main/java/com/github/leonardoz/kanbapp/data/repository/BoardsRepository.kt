@@ -7,7 +7,7 @@ import com.github.leonardoz.kanbapp.util.AsyncAction
 import java.util.*
 
 
-// TODO better asyn action, better error handling
+// TODO better async action, better error handling
 open class BoardsRepository(val boardsDao: BoardsDao, val asyncAction: AsyncAction) : ViewModel() {
 
     open fun saveBoard(board: Board) = asyncAction.execute {

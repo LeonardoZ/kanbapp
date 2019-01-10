@@ -1,4 +1,4 @@
-package com.github.leonardoz.kanbapp.view.fragment
+package com.github.leonardoz.kanbapp.view.dialog
 
 
 import androidx.test.espresso.Espresso.onView
@@ -16,6 +16,7 @@ import com.github.leonardoz.kanbapp.R
 import com.github.leonardoz.kanbapp.data.dao.BoardsDao
 import com.github.leonardoz.kanbapp.data.entity.Board
 import com.github.leonardoz.kanbapp.data.entity.BoardRestrictions
+import com.github.leonardoz.kanbapp.util.BaseUiTest
 import com.github.leonardoz.kanbapp.util.RecyclerViewMatcher
 import com.github.leonardoz.kanbapp.util.format
 import com.github.leonardoz.kanbapp.util.hasTextInputLayoutErrorText
@@ -26,19 +27,17 @@ import org.junit.runner.RunWith
 
 @LargeTest
 @RunWith(AndroidJUnit4::class)
-class ChangeNameDialogTest {
+class ChangeNameDialogTest : BaseUiTest() {
 
     @get:Rule
     private val rule: ActivityTestRule<BoardsActivity> = ActivityTestRule(
         BoardsActivity::class.java,
         false,
-        false
+        true
     )
-
     private var context = InstrumentationRegistry.getInstrumentation().targetContext
     private val boardA = Board(name = "Weekly Goals")
     private lateinit var boardsDao: BoardsDao
-    private var init = false
 
     init {
         (InstrumentationRegistry.getInstrumentation().targetContext.applicationContext
@@ -50,34 +49,13 @@ class ChangeNameDialogTest {
     @Before
     fun startActivity() {
         insertData()
-        if (!init) {
-            rule.finishActivity()
-            rule.launchActivity(null)
-            init = true
-        }
+        rule.launchActivity(null)
     }
 
     @After
     fun clean() {
         removeData()
     }
-
-    companion object {
-        @JvmStatic
-        @BeforeClass
-        fun setupDb() {
-            InstrumentationRegistry.getInstrumentation().targetContext
-                .deleteDatabase("kanbapp-database")
-        }
-
-        @JvmStatic
-        @AfterClass
-        fun destroyDb() {
-            InstrumentationRegistry.getInstrumentation().targetContext
-                .deleteDatabase("kanbapp-database")
-        }
-    }
-
 
     @Test
     fun shouldOpenDialog_andChangeName_Errors() {
@@ -175,17 +153,16 @@ class ChangeNameDialogTest {
             .perform(click())
 
         // Check if dialog is open by searching for a change button
-        val dialogTitle = rule.activity.getString(R.string.change) + " " + boardA.name
-        onView(withText(dialogTitle))
-            .check(matches(isEnabled()))
+        val dialogChangeButton = rule.activity.getString(R.string.change)
+        onView(withText(dialogChangeButton))
+            .check(matches(not(isEnabled())))
     }
 
-    fun insertData() {
-        val id = boardsDao.insertBoard(boardA)
-        boardA.id = id
+    private fun insertData() {
+        boardA.id = boardsDao.insertBoard(boardA)
     }
 
-    fun removeData() {
+    private fun removeData() {
         boardsDao.deleteBoard(boardA)
     }
 

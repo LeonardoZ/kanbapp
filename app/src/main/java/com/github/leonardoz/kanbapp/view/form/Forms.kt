@@ -17,3 +17,20 @@ data class ChangeBoardNameError(
     var nameError: String = "",
     var valid: Boolean = false
 )
+
+data class CreateColumn(var title: String = "")
+
+data class CreateColumnError(
+    var titleIsWrong: Boolean = true,
+    var titleError: String = "",
+    var valid: Boolean = false
+)
+
+data class ChangeColumn(var title: String = "")
+
+data class ChangeColumnError(
+    var titleIsWrong: Boolean = true,
+    var titleError: String = "",
+    var valid: Boolean = false
+)
+

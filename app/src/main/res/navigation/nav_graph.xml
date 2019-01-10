@@ -9,12 +9,35 @@
               android:label="@string/boards" tools:layout="@layout/fragment_boards_list">
         <action android:id="@+id/action_boardsListFragment_to_createBoardFragment"
                 app:destination="@id/createBoardFragment"/>
+        <action android:id="@+id/action_boardsListFragment_to_boardFragment"
+                app:destination="@id/boardFragment">
+            <argument app:argType="string" android:name="boardId" app:nullable="false"/>
+        </action>
     </fragment>
 
-    <fragment android:id="@+id/createBoardFragment" android:name="com.github.leonardoz.kanbapp.view.fragment.CreateBoardFragment"
+    <fragment android:id="@+id/createBoardFragment"
+              android:name="com.github.leonardoz.kanbapp.view.fragment.CreateBoardFragment"
               android:label="@string/create_board" tools:layout="@layout/fragment_create_board">
         <action android:id="@+id/action_createBoardFragment_to_boardsListFragment"
                 app:destination="@id/boardsListFragment"/>
+    </fragment>
+
+    <fragment android:id="@+id/boardFragment"
+              android:name="com.github.leonardoz.kanbapp.view.fragment.BoardFragment"
+              android:label="@string/board" tools:layout="@layout/fragment_board">
+        <argument app:argType="string" android:name="boardId" app:nullable="false"/>
+        <action android:id="@+id/action_boardFragment_to_manageColumnsFragment"
+                app:destination="@id/manageColumnsFragment">
+            <argument app:argType="string" android:name="boardId" app:nullable="false"/>
+        </action>
+    </fragment>
+
+    <fragment android:id="@+id/manageColumnsFragment"
+              android:name="com.github.leonardoz.kanbapp.view.fragment.ManageColumnsFragment"
+              android:label="@string/manage_columns" tools:layout="@layout/fragment_manage_columns">
+        <argument app:argType="string" android:name="boardId" app:nullable="false"/>
+        <action android:id="@+id/action_manageColumnsFragment_to_boardFragment"
+                app:destination="@id/boardFragment"/>
     </fragment>
 
 

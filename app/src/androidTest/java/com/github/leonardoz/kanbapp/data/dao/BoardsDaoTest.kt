@@ -1,13 +1,13 @@
 package com.github.leonardoz.kanbapp.data.dao
 
-
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.github.leonardoz.kanbapp.data.entity.Board
+import com.github.leonardoz.kanbapp.data.entity.Column
+import com.github.leonardoz.kanbapp.data.entity.ColumnType
 import junit.framework.TestCase.*
 import org.junit.Test
 import org.junit.runner.RunWith
-
 
 @SmallTest
 @RunWith(AndroidJUnit4::class)
@@ -49,7 +49,7 @@ open class BoardsDaoTest : BaseDaoTest() {
     }
 
     @Test
-    fun shouldInsertAndDelete_a_board() {
+    fun shouldInsertAndDelete_a_Board() {
         val boardName = "Weekly Goals"
 
         val board = Board(name = boardName)
@@ -63,6 +63,29 @@ open class BoardsDaoTest : BaseDaoTest() {
         val deletedBoard = getValue(boardsDao.getBoard(id))
         assertNull(deletedBoard)
     }
+
+    @Test
+    fun shouldDeleteBoard_CascadingDelete() {
+        val board = Board(name = "Weekly Goals")
+        val boardsDao = database.boardsDao()
+        val id = boardsDao.insertBoard(board)
+
+        val insertedBoard = getValue(boardsDao.getBoard(id))!!
+
+        assertNotNull(insertedBoard)
+
+        val columnsDao = database.columnsDao()
+
+        val column = Column(boardId = insertedBoard.id, title = "TODO", type = ColumnType.TODO_COLUMN)
+        columnsDao.insertColumn(column)
+
+        // should cascade delete
+        boardsDao.deleteBoard(insertedBoard)
+        val deletedBoard = getValue(boardsDao.getBoard(insertedBoard.id))
+
+        assertNull(deletedBoard)
+    }
+
 
     @Test
     fun shouldGet_Three_Boards() {

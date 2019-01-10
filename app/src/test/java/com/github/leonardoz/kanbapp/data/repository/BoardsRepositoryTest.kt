@@ -23,33 +23,15 @@ class BoardsRepositoryTest() {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     @Test
-    fun shouldLoad_Three_Boards_FromAll_Boards() {
-        val dbData = listOf(
-            Board(name = "Daily tasks"),
-            Board(name = "School homework"),
-            Board(name = "Supermarket")
-        )
-        val liveData: MutableLiveData<List<Board>> = MutableLiveData()
-        liveData.postValue(dbData)
-
-        `when`(boardsDao.getAllBoards()).thenReturn(liveData)
-        val boards = getValue(repository.getAllBoards())
-        assertNotNull(boards)
-        assertEquals(3, boards.size)
-        assertEquals("School homework", boards[1].name)
+    fun shouldCall_getAllBoard_InDao() {
+        repository.getAllBoards()
+        verify(boardsDao).getAllBoards()
     }
 
     @Test
-    fun shouldLoad_Correct_Board() {
-        val liveData: MutableLiveData<Board> = MutableLiveData()
-        liveData.postValue(Board(id = 56, name = "School homework"))
-
-        `when`(boardsDao.getBoard(56)).thenReturn(liveData)
-        val board = getValue(repository.getBoard(56))
-        assertNotNull(board)
+    fun shouldCall_getBoard_InDao() {
+        repository.getBoard(56)
         verify(boardsDao).getBoard(56)
-        assertEquals("School homework", board?.name)
-        assertEquals(56L, board?.id)
     }
 
     @Test

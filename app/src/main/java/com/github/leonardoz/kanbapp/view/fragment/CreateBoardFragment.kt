@@ -19,6 +19,8 @@ import javax.inject.Inject
 
 class CreateBoardFragment : Fragment() {
 
+    private lateinit var binding: FragmentCreateBoardBinding
+
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
@@ -35,7 +37,28 @@ class CreateBoardFragment : Fragment() {
         (activity?.applicationContext as KanbappApplication)
             .appComponent
             .injectCreateBoardFragment(this)
+    }
 
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentCreateBoardBinding.inflate(inflater, container, false)
+        binding.setLifecycleOwner(this)
+        return binding.root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initViewModel()
+    }
+
+    private fun initViewModel() {
+        val viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(CreateBoardViewModel::class.java)
+        viewModel.navigateToBoardsFragment.observe(viewLifecycleOwner, navigationObserver)
+        binding.viewModel = viewModel
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,17 +66,5 @@ class CreateBoardFragment : Fragment() {
         etName.requestFocus()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return FragmentCreateBoardBinding.inflate(inflater, container, false)
-            .apply {
-                viewModel = ViewModelProviders.of(this@CreateBoardFragment, viewModelFactory)
-                    .get(CreateBoardViewModel::class.java)
-                viewModel!!.navigateToBoardsFragment.observe(viewLifecycleOwner, navigationObserver)
-                setLifecycleOwner(this@CreateBoardFragment)
-            }.root
-    }
 
 }
